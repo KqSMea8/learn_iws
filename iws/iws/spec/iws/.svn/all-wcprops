@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/op/ecomop/sdc-op/!svn/ver/1214/trunk/cb/monitor/iws/spec/iws
+END
+config_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/op/ecomop/sdc-op/!svn/ver/966/trunk/cb/monitor/iws/spec/iws/config_spec.rb
+END
+db_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/op/ecomop/sdc-op/!svn/ver/966/trunk/cb/monitor/iws/spec/iws/db_spec.rb
+END
+test.rb
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/op/ecomop/sdc-op/!svn/ver/1025/trunk/cb/monitor/iws/spec/iws/test.rb
+END
+alert_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/op/ecomop/sdc-op/!svn/ver/1003/trunk/cb/monitor/iws/spec/iws/alert_spec.rb
+END
+monitor_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/op/ecomop/sdc-op/!svn/ver/1104/trunk/cb/monitor/iws/spec/iws/monitor_spec.rb
+END
+issue_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/op/ecomop/sdc-op/!svn/ver/1214/trunk/cb/monitor/iws/spec/iws/issue_spec.rb
+END
+case_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/op/ecomop/sdc-op/!svn/ver/1025/trunk/cb/monitor/iws/spec/iws/case_spec.rb
+END
+product_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/op/ecomop/sdc-op/!svn/ver/1214/trunk/cb/monitor/iws/spec/iws/product_spec.rb
+END
+log_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/op/ecomop/sdc-op/!svn/ver/994/trunk/cb/monitor/iws/spec/iws/log_spec.rb
+END
+iws_spec.rb
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/op/ecomop/sdc-op/!svn/ver/1036/trunk/cb/monitor/iws/spec/iws/iws_spec.rb
+END

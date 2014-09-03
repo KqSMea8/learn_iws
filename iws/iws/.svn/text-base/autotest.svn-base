@@ -1,0 +1,14 @@
+#!/bin/bash
+
+tmpfile=/tmp/autotest/`date +%s`
+mkdir -p /tmp/autotest
+
+while :; do
+  find lib spec views -type f | sort | grep -v '^\.' | xargs md5sum > $tmpfile.new
+  diff $tmpfile $tmpfile.new &>/dev/null || {
+    echo "====================================================" `date`
+    rspec $*
+    mv $tmpfile.new $tmpfile
+  }
+  sleep 1
+done

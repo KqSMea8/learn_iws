@@ -1,0 +1,50 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li><a href="/trace">trace</a></li>
+  <li class="active"><%= trace["id"] %></li>
+</ol>
+
+<form action="/trace/<%= trace["id"] %>" method="post">
+  <div class="row form-group">
+    <div class="col-sm-11">
+      <div class="btn-group" data-toggle="buttons">
+        <% ["open","doing","fixed","pending","close"].each do |st|
+            cls = case st
+                  when "open" then "danger"
+                  when "doing" then "primary"
+                  when "fixed" then "success"
+                  when "close" then "default"
+                  when "pending" then "warning"
+                  end
+        %>
+        <label class="btn btn-<%=cls%> <%="active" if st == trace["status"]%>">
+          <input type="radio" name="status" value="<%=st%>" <%="checked" if st == trace["status"]%>/>
+          <%=st%>
+        </label>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-1">
+      <a href="/delete/<%= trace["id"] %>" class="btn btn-danger" role="button">删除</a>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input value="<%= trace["title"].force_encoding("UTF-8") %>" name="title" class="form-control" id="title">
+  </div>
+
+  <div class="form-group">
+    <label for="owner">Owner</label>
+    <input value="<%= trace["owner"].force_encoding("UTF-8") %>" name="owner" class="form-control" id="owner">
+  </div>
+
+  <div class="form-group">
+    <label for="context">Content</label>
+    <textarea class="form-control" rows="10" name="context"><%= trace["context"].force_encoding("UTF-8") %></textarea>
+    <span class="help-block">Support Markdown(GFM)</span>
+  </div>
+
+  <input class="btn btn-default" type="submit" value="提交">
+
+</form>

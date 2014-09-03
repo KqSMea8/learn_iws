@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/async.js"></script>
+    <script src="/js/highstock.js"></script>
+    <script src="/js/onechart.js"></script>  
+    <script src="/js/bootstrap-datetimepicker.js"></script>  
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>  
+    <title>sdc-iws</title>
+  </head>
+  <body style=" position: relative; padding-top: 70px; padding-left: 10%; padding-right: 10%;">
+    <nav class="navbar navbar-default navbar-inverse navbar-static-top navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">SDC-IWS</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/issue">核心功能</a></li>
+        <li><a href="/alarm">故障归并</a></li>
+        <li><a href="/trace">故障跟踪</a></li>
+        <li><a href="/check_pro">服务评分</a></li>
+        <li><a href="/argus">监控展示</a></li>
+        <li><a href="/iop">变更状态</a></li>
+        <li><a href="/help">帮助</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><p class="navbar-text">Oncall: <%= $oncall %></p></li>
+        <li><p class="navbar-text">Signed as <%= session[:user] %> (<%= session[:prole]%>)</p></li>
+        <li><a href="/logout">Logout</a></li>
+	<li><p class="navbar-text"> </p></li>
+      </ul>
+    </div>
+    </nav>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

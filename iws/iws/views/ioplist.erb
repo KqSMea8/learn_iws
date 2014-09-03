@@ -1,0 +1,32 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li class="active">iop</li>
+</ol>
+<table class="table">
+  <tr>
+    <th>类型</th>
+    <th>任务名</th>
+    <th>发单人</th>
+    <th>发单时间</th>
+    <th>状态</th>
+  </tr>
+  <% list.each_value do |i| %>
+    <tr>
+      <td><%= i["type"].force_encoding("UTF-8") %></td>
+      <td>
+        <%= i["processName"].force_encoding("UTF-8") %>
+        <small><a href="<%= i["processUrl"] %>" target="_blank">查看详情</a></small>
+      </td>
+      <td><%= i["createUser"].force_encoding("UTF-8") %></td>
+      <td><%= i["processCreateTime"].force_encoding("UTF-8") %></td>
+      <td>
+        <% if i["state"].force_encoding("UTF-8") == "待OP实施操作" %>
+          <a href="<%= i["processUrl"] %>" target="_blank">待OP实施操作</a>
+        <% else %>
+          <%= i["state"].force_encoding("UTF-8") %>
+        <% end %>
+        <%= "(#{i["opFinishTime"]})" if i["state"] == "已完成" %>
+      </td>
+    </tr>
+  <% end %>
+</table>

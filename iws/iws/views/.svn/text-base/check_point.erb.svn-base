@@ -1,0 +1,23 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li class="active">score</li>
+</ol>
+<table class="table">
+  <tr><th>Type</th><th>Machine</th><th>Point</th></tr>
+  <% check_point.keys.each do |type| %>
+    <% length = check_point[type].length + 2 %>
+    <tr>
+      <td rowspan=<%= length %>>
+        <a href="/check_list?prd=<%= "#{prod}" %>&type=<%= "#{type}" %>"><%= "#{type}" %></a>
+      </td>
+      <% check_point[type].keys.each do |key| %>
+        <tr><td>
+            <a href="/check_list?mach=<%= "#{key}" %>&prd=<%= "#{prod}" %>&type=<%= "#{type}" %>"><%= "#{key}" %></a>
+            </td><td>
+            <%= "#{check_point[type][key]}".split(':').join('</td><td>') %>
+        </td></tr>
+      <% end %>
+      <tr><td><a href="/check_list?prd=<%= "#{prod}" %>&type=<%= "#{type}" %>">All Machine</a></td></tr>
+    </tr>
+  <% end %>
+</table>

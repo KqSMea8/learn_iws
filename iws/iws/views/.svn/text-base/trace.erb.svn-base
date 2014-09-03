@@ -1,0 +1,51 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li><a href="/trace">trace</a></li>
+  <li class="active"><%= trace["id"] %></li>
+</ol>
+
+<h1> 
+  <%= trace["title"].force_encoding("UTF-8") %> 
+   
+<form action="/trace_append/<%= trace["id"] %>" method="post">
+  <div class="row form-group">
+    <div class="col-sm-11">
+      <div class="btn-group" data-toggle="buttons">
+        <% ["open","doing","fixed","pending","close"].each do |st|
+            cls = case st
+                  when "open" then "danger"
+                  when "doing" then "primary"
+                  when "fixed" then "success"
+                  when "close" then "default"
+                  when "pending" then "warning"
+                  end
+        %>
+        <label class="btn btn-<%=cls%> <%="active" if st == trace["status"]%>">
+          <input type="radio" name="status" value="<%=st%>" <%="checked" if st == trace["status"]%>/>
+          <%=st%>
+        </label>
+        <% end %>
+      </div>
+    </div>
+    <a href="/edit/<%= trace["id"] %>" class="btn btn-primary btn-sm" role="button">编辑</a>
+   </div>
+</h1>
+<h3> <small>负责人：<%= trace["owner"].force_encoding("UTF-8") %> </small></h3>
+<hr />
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%
+      text = GitHub::Markdown.render_gfm trace["context"].force_encoding("UTF-8") 
+      text = text.gsub(/<table>/,"<table class=\"table\">")
+    %>
+    <%= text %>
+  </div>
+</div>
+<hr/>
+
+  <textarea class="form-control" rows="5" name="context"></textarea>
+  <span class="help-block">Support Markdown(GFM)</span>
+  <br/>
+  <input class="btn btn-default" type="submit" value="评论">
+</form>

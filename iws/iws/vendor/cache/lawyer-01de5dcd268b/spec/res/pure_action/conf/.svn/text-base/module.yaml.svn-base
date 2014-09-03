@@ -1,0 +1,3 @@
+opbin/action:
+  -
+    src: ftp://st01-sdcop-dev.st01.baidu.com/home/wenli/diy/lawyer/spec/res/pure_action/action.tgz

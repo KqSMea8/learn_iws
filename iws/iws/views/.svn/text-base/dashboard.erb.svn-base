@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-md-4" onClick="location = '/issue'" style="cursor:pointer " >
+    <div class="panel panel-default">
+      <div class="panel-heading"> 服务可用性 </div>
+      <table class="table">
+        <% kpi.each do |k,v| %>
+          <tr>
+            <td><h1><small><%=k%></small></h1></td>
+            <td><h1 class="<%="text-danger" if v < 99.99%>"><%=v.round 3%>%</h1></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4" onClick="location = '/check_pro'" style="cursor:pointer">
+    <div class="panel panel-default">
+      <div class="panel-heading"> 服务评分
+        <span class="label label-default">Beta</span> 
+      </div>
+      <table class="table">
+        <% score.each do |k,v| %>
+          <tr>
+            <td><h1><small><%=k%></small></h1></td>
+            <% if v %>
+              <td><h1 class="<%="text-danger" if v["machine"] < 80%>"><%=v["machine"]%></h1></td>
+              <td><h1 class="<%="text-danger" if v["module"] < 80%>"><%=v["module"]%></h1></td>
+            <% else %>
+              <td><h1><small>无数据</small></h1></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4" onClick="location = '/argus'" style="cursor:pointer" >
+    <div class="panel panel-default">
+      <div class="panel-heading"> 监控情况 
+        <span class="label label-default">Beta</span> 
+      </div>
+      <table class="table">
+        <% monitor.each do |k,v| %>
+          <tr>
+            <td><h1><small><%=k%></small></h1></td>
+            <% if !v %>
+              <td><h1><small>无法获取故障信息</small></h1></td>
+            <% elsif v == 0 %>
+              <td><h1 class="text-success">正常</h1></td>
+            <% else %>
+              <td><h1 class="text-danger"><%=v%><small>个故障策略</small></h1></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4" onClick="location = '/alarm'" style="cursor:pointer">
+    <div class="panel panel-default">
+      <div class="panel-heading"> 报警信息 
+        <span class="label label-default">Beta</span> 
+      </div>
+      <table class="table">
+        <tr><td><h1><small>今日报警数</small></h1></td><td><h1><%=alert[:today]%></h1></td></tr>
+        <tr><td><h1><small>最近一小时</small></h1></td><td><h1><%=alert[:hour]%></h1></td></tr>
+        <tr><td><h1><small>未认领报警</small></h1></td><td><h1 class="<%="text-danger" if alert[:unclose] > 0%>"><%=alert[:unclose]%></h1></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4" onClick="location = '/trace'" style="cursor:pointer">
+    <div class="panel panel-default">
+      <div class="panel-heading"> 任务跟踪
+        <span class="label label-default">Beta</span> 
+      </div>
+      <table class="table">
+        <tr><td><h1><small>未认领</small></h1></td><td><h1 class="<%="text-danger" if trace["open"] > 0%>"><%=trace["open"]%></h1></td></tr>
+        <tr><td><h1><small>进行中</small></h1></td><td><h1><%=trace["doing"]%></h1></td></tr>
+        <tr><td><h1><small>搁置中</small></h1></td><td><h1><%=trace["pending"]%></h1></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4" onClick="location = '/iop'" style="cursor:pointer">
+    <div class="panel panel-default">
+      <div class="panel-heading"> 变更信息 </div>
+      <table class="table">
+        <tr><td><h1><small>今日上线</small></h1></td><td><h1><%=iop[:today]%></h1></td></tr>
+        <tr><td><h1><small>待审批</small></h1></td><td><h1 class="<%="text-danger" if iop[:approv] > 0%>"><%=iop[:approv]%></h1></td></tr>
+        <tr><td><h1><small>待OP操作</small></h1></td><td><h1 class="<%="text-danger" if iop[:todo] > 0%>"><%=iop[:todo]%></h1></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script language="JavaScript">
+  function myrefresh()
+  {
+    window.location.reload();
+  }
+  setTimeout('myrefresh()',60000); 
+</script>

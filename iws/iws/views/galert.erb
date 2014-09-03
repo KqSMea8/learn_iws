@@ -1,0 +1,260 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li class="active">alarm</li>
+</ol>
+<% timenow = Time.now %>
+<% timen = timenow.strftime("%Y-%m-%d %H:%M:%S") %>
+<% onehour = (timenow-3600).strftime("%Y-%m-%d %H:%M:%S") %>
+<% threehour = (timenow-10800).strftime("%Y-%m-%d %H:%M:%S") %>
+<% oneday = (timenow-86400).strftime("%Y-%m-%d %H:%M:%S") %>
+<script type="text/javascript">
+function formSubmit()
+  {
+  var startt=document.getElementById("startt").value
+  var endt=document.getElementById("endt").value
+  window.location.replace("/alarm?stime="+startt+"&etime="+endt);
+  }
+function buttonSubmit(alarmid,nodename,rulename,startt,endt)
+  {
+   $.post("/alarm/follow",
+      {alarmid:alarmid,nodename:nodename,rulename:rulename,startt:startt,endt:endt},
+      function( data ) {
+       window.location.reload();
+   } 
+   );
+  }   
+var alarmid = "";
+var atitle = "";
+var ttitle = "";
+var owner = "";
+var context = "";
+var nodename = "";
+var originname = "";
+var startt = "";
+var endt = "";
+function traceSubmit(larmid,itle,wner,ontext,odename,riginname,tartt,ndt)
+  {
+   alarmid = larmid;
+   atitle = itle;
+   ttitle = odename+"\n["+riginname+"]\n"+itle;
+   owner = wner;
+   context = ontext;
+   nodename = odename;
+   startt = tartt;
+   endt = ndt;
+  }
+
+function fntest(contemp){
+ var tn= new Date();
+ mon = tn.getMonth()+1
+ var timenow=tn.getFullYear()+"-"+mon+"-"+tn.getDate()+" "+tn.getHours()+":"+tn.getMinutes()+":"+tn.getSeconds();
+ context = context+"\n\n------\n"+contemp+"\n"+timenow;
+   $.post("/trace/new",
+      {status:"open",alarmid:alarmid,title:ttitle,owner:owner,context:context,nodename:nodename,startt:startt,endt:endt},
+      function( data ) {
+      $.post("/alarm/trace",
+         {alarmid:alarmid,title:atitle,nodename:nodename,startt:startt,endt:endt},
+         function( data ) {
+           window.location.reload(); 
+         }
+      );
+   }
+   );
+}
+
+function f1(){
+ var tab1=document.getElementById("tab1");
+ var tab2=document.getElementById("tab2");
+ var change=document.getElementById("change");
+
+ change.value=(change.value=="No-Follower"?"All-Follower":"No-Follower");
+ tab1.style.display=(tab1.style.display=="none"?"":"none");
+ tab2.style.display=(tab2.style.display=="none"?"":"none");
+}
+</script>
+<div class="input-group">
+ <ul class="nav nav-tabs">
+  <li><a href="/alarm?stime=<%= onehour %>&etime=<%= timen %>&pid=.*"><b>1-Hour</b></a></li>
+  <li><a href="/alarm?stime=<%= threehour %>&etime=<%= timen %>&pid=.*"><b>3-Hour</b></a></li>
+  <li><a href="/alarm?stime=<%= oneday %>&etime=<%= timen %>&pid=.*"><b>1-Day</b></a></li>
+ </ul>
+</div>
+<br>
+<div class="input-append date" id="datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss">
+    <span style="display:inline-block;width:3px"></span><span class="text-primary"><b>&nbsp;&nbsp;&nbsp;&nbsp;From:</b></span>
+    <input type="text" class="text-info" value="<%= params[:stime] %>" id="startt" onclick="$('#startt').datetimepicker('show');">
+    <span class="text-primary"><b>To:</b></span>
+    <input type="text" class="text-info" value="<%= params[:etime] %>" id="endt" onclick="$('#endt').datetimepicker('show');">
+    <span class="span2">
+        <button class="btn btn-default" type="button" onclick="formSubmit()"><b>Submit</b></button>
+    </span>
+    <span style="display:inline-block;width:40px"></span><span  class="text-primary"><b>Product:</b></span>
+    <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      <%= proname %> <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <% product_list.each do |product| %>
+	
+	<li onclick="window.location.replace(window.location.href.replace(/\pid=.*/g,'pid=<%= product.id %>'))"><%= product.name %></a></li>
+      <% end %>
+      <li onclick="window.location.replace(window.location.href.replace(/\pid=.*/g,'pid=.*'))">all</a></li>
+    </ul>
+    </div>
+    <span style="display:inline-block;width:40px"></span><span  class="text-primary"><b>Follower:</b></span>
+    <input class="btn btn-default" id="change" type="button" onclick="f1();" value="No-Follower">
+</div>
+<br>
+<table class="table" id="tab1" style="
+    word-wrap: break-word;
+    word-break: break-all;
+"
+>
+<tr align="center">
+<th align="center" width="80" style="word-break:keep-all" class="text-primary">Count</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">NodeName</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">RuleName</th>
+<th align="center" width="200" style="word-break:keep-all" class="text-primary">Content</th>
+<th align="center" width="120" style="word-break:keep-all" class="text-primary">AlarmTime</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">OriginName</th>
+<th align="center" width="80" style="word-break:keep-all" class="text-primary">Follower</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">SendTrace</th>
+</tr>
+      <% galert_list.each do |galert| %>
+	<tr>
+        <td>
+        <%= "#{galert["cnt"]}" %>
+        </td>
+	<td>
+        <%= "#{galert["nodename"][15..-1]}" %>
+        </td>
+	<td>
+        <%= "#{galert["rulename"]}" %>
+        </td>
+	<td>
+        <%= "#{galert["title"]}" %>
+        </td>
+	<td>
+        <%= "#{galert["time"]}" %>
+        </td>
+	<td>
+        <%= "#{galert["originName"]}" %>
+        </td>
+        <td>
+        <% rulename="#{galert["rulename"]}" %>
+        <% title="#{galert["title"]}" %>
+        <% alarmid = "#{galert["id"]}" %>
+        <% nodename = "#{galert["nodename"]}" %>
+        <% originname = "#{galert["originName"]}" %>
+        <% startt = "#{params[:stime]}" %>
+        <% endt = "#{params[:etime]}" %>
+        <% if galert["follower"]==NIL %>
+          <% text = "None" %>
+          <% classname = "btn btn-warning" %>
+        <% else %>
+          <% text = "#{galert["follower"]}" %>
+          <% classname = "btn btn-success" %>
+        <% end %>
+        <button class="<%= "#{classname}" %>" type="button" onclick="buttonSubmit(<%= alarmid %>,'<%= nodename  %>','<%= rulename %>','<%= startt  %>','<%= endt  %>')"><b><%= "#{text}" %></b></button>
+        </td>
+        <td>
+
+
+        <% if galert["trace"]==NIL %>
+          <% trace = "No" %>
+          <% tracename = "btn btn-warning" %>
+          <button class="<%= "#{tracename}" %>" type="button" data-toggle="modal" data-target="#myModal" onclick="traceSubmit(<%= alarmid %>,'<%= rulename %>','<%= session[:user] %>','<%= title %>','<%= nodename  %>','<%= originname  %>','<%= startt  %>','<%= endt  %>')"><b><%= "#{trace}" %></b></button>
+        <% else %>
+          <% trace = "Yes" %>
+          <% tracename = "btn btn-success" %>
+          <button class="<%= "#{tracename}" %>" type="button" onclick="window.location.replace('/trace')"><b><%= "#{trace}" %></b></button>
+        <% end %>
+        </td>
+	</tr>
+      <% end %>
+</table>
+
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Input comment</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" rows="10" id="submittrace"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="fntest(submittrace.value)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<table class="table" id="tab2" style="
+    word-wrap: break-word;
+    word-break: break-all;
+    display: none;
+"
+>
+<tr align="center">
+<th align="center" width="80" style="word-break:keep-all" class="text-primary">Count</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">NodeName</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">RuleName</th>
+<th align="center" width="200" style="word-break:keep-all" class="text-primary">Content</th>
+<th align="center" width="120" style="word-break:keep-all" class="text-primary">AlarmTime</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">OriginName</th>
+<th align="center" width="80" style="word-break:keep-all" class="text-primary">Follower</th>
+<th align="center" width="100" style="word-break:keep-all" class="text-primary">SendTrace</th>
+</tr>
+      <% galert_list.each do |galert| %>
+       <% if galert["follower"]==NIL %>
+        <tr>
+        <td>
+        <%= "#{galert["cnt"]}" %>
+        </td>
+        <td>
+        <%= "#{galert["nodename"][15..-1]}" %>
+        </td>
+        <td>
+        <%= "#{galert["rulename"]}" %>
+        </td>
+        <td>
+        <%= "#{galert["title"]}" %>
+        </td>
+        <td>
+	<%= "#{galert["time"]}" %>
+        </td>
+        <td>
+        <%= "#{galert["originName"]}" %>
+        </td>
+        <td>
+        <% rulename="#{galert["rulename"]}" %>
+        <% title="#{galert["title"]}" %>
+        <% alarmid = "#{galert["id"]}" %>
+        <% nodename = "#{galert["nodename"]}" %>
+        <% originname = "#{galert["originName"]}" %>
+        <% startt = "#{params[:stime]}" %>
+        <% endt = "#{params[:etime]}" %>
+        <% text = "None" %>
+        <% classname = "btn btn-warning" %>
+        <button class="<%= "#{classname}" %>" type="button" onclick="buttonSubmit(<%= alarmid %>,'<%= nodename  %>','<%= rulename %>','<%= startt  %>','<%= endt  %>')"><b><%= "#{text}" %></b></button>
+        </td>
+        <td>
+
+
+        <% if galert["trace"]==NIL %>
+          <% trace = "No" %>
+          <% tracename = "btn btn-warning" %>
+          <button class="<%= "#{tracename}" %>" type="button" data-toggle="modal" data-target="#myModal" onclick="traceSubmit(<%= alarmid %>,'<%= rulename %>','<%= session[:user] %>','<%= title %>','<%= nodename  %>','<%= originname  %>','<%= startt  %>','<%= endt  %>')"><b><%= "#{trace}" %></b></button>
+        <% else %>
+          <% trace = "Yes" %>
+	  <% tracename = "btn btn-success" %>
+          <button class="<%= "#{tracename}" %>" type="button" onclick="window.location.replace('/trace')"><b><%= "#{trace}" %></b></button>
+        <% end %>
+        </td>
+        </tr>
+       <% end %>
+      <% end %>
+</table>

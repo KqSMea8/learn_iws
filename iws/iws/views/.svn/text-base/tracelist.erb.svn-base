@@ -1,0 +1,71 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li class="active">trace</li> 
+</ol>
+<a href="/edit/new" class="btn btn-primary btn-xs" role="button">新增</a>
+<hr/>
+<table class="table" id="table">
+  <tr>
+    <th>标题</th>
+    <th>负责人</th>
+    <th>状态</th>
+    <th>操作</th>
+    <th>删除</th>
+  </tr>
+  <% list.each do |i| %>
+    <% if i["status"] != "close" %>
+    <tr>
+      <td>
+        <a href="/trace/<%= i["id"] %>"><%= i["title"].force_encoding("UTF-8") %></a>
+      </td>
+      <td><%= i["owner"].force_encoding("UTF-8") %></td>
+      <td>
+        <% 
+        cls = case i["status"]
+              when "open" then "danger"
+              when "doing" then "primary"
+              when "fixed" then "success"
+              when "close" then "default"
+              when "pending" then "warning"
+              end
+        %>
+        <span class="label label-<%=cls%>"><%= i["status"].upcase %></span>
+      </td>
+      <td>
+        <a href="/edit/<%= i["id"] %>" class="btn btn-primary btn-xs" role="button">编辑</a>
+      </td>
+      <td>
+        <a href="/delete/<%= i["id"] %>" data-dismiss="alert" class="btn btn-danger btn-xs" role="button">删除</a>
+      </td>
+    </tr>
+    <% end %>
+  <% end %>
+  <% list.each do |i| %>
+    <% if i["status"] == "close" %>
+    <tr>
+      <td>
+        <a href="/trace/<%= i["id"] %>"><%= i["title"].force_encoding("UTF-8") %></a>
+      </td>
+      <td><%= i["owner"].force_encoding("UTF-8") %></td>
+      <td>
+        <% 
+        cls = case i["status"]
+              when "open" then "danger"
+              when "doing" then "primary"
+              when "fixed" then "success"
+              when "close" then "default"
+              when "pending" then "warning"
+              end
+        %>
+        <span class="label label-<%=cls%>"><%= i["status"].upcase %></span>
+      </td>
+      <td>
+        <a href="/edit/<%= i["id"] %>" class="btn btn-primary btn-xs" role="button">编辑</a>
+      </td>
+      <td>
+        <a href="/delete/<%= i["id"] %>" data-dismiss="alert" class="btn btn-danger btn-xs" role="button">删除</a>
+      </td>
+    </tr>
+    <% end %>
+  <% end %>
+</table>

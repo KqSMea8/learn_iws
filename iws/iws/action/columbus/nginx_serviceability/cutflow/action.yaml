@@ -1,0 +1,5 @@
+name: cut_flow
+target:
+  sdcop-public.BACKUPPOOL.all:
+    - st01-sdcop-dev.st01
+    - tc-ecomop-stat01.tc

@@ -1,0 +1,17 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li class="active">score</li>
+</ol>
+<table class="table">
+  <tr><th>Product</th><th>Machine</th><th>Module</th>
+    <% ch_prod.keys.each do |prod| %>
+      <tr>
+        <td>
+          <%= "#{prod}" %>
+        </td>
+        <% ch_prod[prod].keys.each do |type| %>
+          <td><a href="/check_point?type=<%= "#{type}" %>&prd=<%= "#{prod}" %>"><%= "#{ch_prod[prod][type]}" %></a></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>

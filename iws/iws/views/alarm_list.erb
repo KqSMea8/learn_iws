@@ -1,0 +1,7 @@
+    <div>
+      <% alarm_list.each do |alarm| %>
+        <li>
+        <%= "#{alarm[:name]}: #{alarm["value"]}" %>
+        </li>
+      <% end %>
+    </div>

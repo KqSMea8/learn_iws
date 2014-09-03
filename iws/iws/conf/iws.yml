@@ -1,0 +1,6 @@
+db:
+  ip: 10.42.85.19
+  port: 3306
+  user: iws
+  passwd: iws
+  database: iws

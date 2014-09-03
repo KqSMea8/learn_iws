@@ -1,0 +1,3 @@
+# server.yaml
+sdcop-public.BACKUPPOOL.all:
+    - all

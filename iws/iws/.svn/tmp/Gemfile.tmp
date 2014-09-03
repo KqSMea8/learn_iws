@@ -1,0 +1,24 @@
+# source "http://ruby.taobao.org"
+source "http://db-bldev.db01.baidu.com:8182"
+
+gem "bundle"
+gem "bundler"
+gem "sinatra"
+gem "mysql"
+gem "thin"
+gem "mail"
+gem "rest-client"
+gem "rdiscount"
+gem "haml"
+gem 'github-markdown', '~> 0.6.5'
+<<<<<<< .mine
+# gem 'gruff'
+=======
+gem "mail"
+>>>>>>> .r1329
+
+gem 'lawyer', :git => 'http://gitlab.baidu.com/wenli/lawyer.git'
+
+gem "rspec"
+gem "rack"
+gem "rack-test"

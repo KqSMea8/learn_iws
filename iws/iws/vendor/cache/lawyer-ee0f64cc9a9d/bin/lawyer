@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+home = File.join(File.dirname(__FILE__),'..')
+$LOAD_PATH.unshift(File.join(home,'lib'))
+
+require 'lawyer'
+
+law = Lawyer.new ({
+  "command" => "echo haha",
+  "target" => {"sdcop-public.BACKUPPOOL.all" => ["st01-sdcop-dev.st01"]}
+})
+
+law.go
+
+p law.prepare_path
+p law.archer_id
+p law

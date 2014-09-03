@@ -1,0 +1,5 @@
+# lawyer config
+---
+log:
+  level: DEBUG
+  path: /home/wenli/diy/lawyer/log/lawyer.log

@@ -1,0 +1,82 @@
+<ol class="breadcrumb">
+  <li><a href="/">home</a></li>
+  <li><a href="/issue">issue</a></li>
+  <li class="active"><%=product.name%></li> 
+</ol>
+<table class="table"> 
+  <tr>
+    <td class="h3"> <%= product.name %> </td>
+    <% kpi = product.kpi %>
+    <% kpi_today = product.kpi_today %>
+    <td class="h3 text-<%= kpi_today>99.99? "success":"danger" %>">
+      <small>当日可用性：</small> <%= kpi_today.round(3) %> % 
+    </td>
+    <td class="h3 text-<%= kpi["stability2"]>99.99? "success":"danger" %>">
+      <small>当月可用性：</small> <%= kpi["stability2"].round(3) %> % 
+    </td>
+    <td class="h3 text-<%= kpi["mttr"]<20? "success":"danger" %>">
+      <small>MTTR: </small> <%= kpi["mttr"].round(3) %> min
+    </td>
+  </tr>
+</table>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#pro_stability" data-toggle="tab">可用性</a></li>
+  <li><a id="tab_pro_mttr" href="#pro_mttr" data-toggle="tab">MTTR</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="pro_stability">
+    <div style="height:200px; width:1150px;" class="onechart" setting="style_simple" url="/api/kpi/stability2/<%=product.id%>"></div>
+  </div>
+  <div class="tab-pane" id="pro_mttr">
+    <div style="height:200px; width:1150px;" class="onechart" setting="style_simple" url="/api/kpi/mttr/<%=product.id%>"></div>
+  </div>
+</div>
+
+<table class="table table-hover table-condensed"> 
+  <tr>
+    <th>核心功能</th>
+    <th>当前值</th>
+    <th>当日可用性</th>
+    <th>当月可用性</th>
+    <th>MTTR</th>
+  </tr>
+  <% issue_list.each do |issue| %>
+    <% if issue.weight.to_i > 0 %>
+      <% kpi = issue.kpi %>
+      <% kpi_today = issue.kpi_today %>
+      <tr>
+        <td>
+          <a href="/issue/<%= product.name %>/<%= issue.name%>"><%= "#{issue.desc.force_encoding("UTF-8")} (#{issue.name})" %></a>
+        </td>
+        <td><%= issue.show_value %></td>
+        <td class="text-<%= kpi_today>99.99? "success":"danger" %>"><%= kpi_today.round(3) %> %</td>
+        <td class="text-<%= kpi["stability"]>99.99? "success":"danger" %>"><%= kpi["stability"].round(3) %> %</td>
+        <td class="text-<%= kpi["mttr"]<20? "success":"danger" %>"><%= kpi["mttr"].round(2) %> min</td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+<table class="table table-hover table-condensed"> 
+  <tr>
+    <th>重要功能(不记入可用性)</th>
+    <th>当前值</th>
+    <th>当日可用性</th>
+  </tr>
+  <% IssueList.new(product.id).each do |issue| %>
+    <% if issue.weight.to_i == 0 %>
+      <% kpi_today = issue.kpi_today %>
+      <tr>
+        <td>
+          <a href="/issue/<%= product.name %>/<%= issue.name%>"><%= "#{issue.desc.force_encoding("UTF-8")} (#{issue.name})" %></a>
+        </td>
+        <td><%= issue.show_value %></td>
+        <td class="text-<%= kpi_today>99.99? "success":"danger" %>"><%= kpi_today.round(3) %> %</td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<iframe frameborder=0 width=100% height=1000 src='<%= product.noah2url %>'></iframe>
+

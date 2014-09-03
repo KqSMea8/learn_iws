@@ -1,0 +1,9 @@
+# server.yaml
+tagconcurrency: 1
+
+tags: 
+  sdcop-public.BACKUPPOOL.all:
+    concurrency: 1
+    pausepoint: 1
+    account: work
+    deploypath: /home/work
